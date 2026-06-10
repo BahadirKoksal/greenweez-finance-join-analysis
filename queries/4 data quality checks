@@ -1,0 +1,36 @@
+-- PK test: check for duplicate orders_id + products_id in gwz_sales_margin
+CREATE OR REPLACE TABLE course16.gwz_sales_margin_pk AS
+SELECT
+  orders_id,
+  products_id,
+  COUNT(*) AS nb
+FROM course16.gwz_sales_margin
+GROUP BY orders_id, products_id
+HAVING nb >= 2
+ORDER BY nb DESC;
+
+-- NULL test: check for missing purchase_price after JOIN
+SELECT
+  orders_id,
+  products_id,
+  purchase_price
+FROM course16.gwz_sales_margin
+WHERE purchase_price IS NULL;
+
+-- save rows with missing purchase_price to separate table
+CREATE OR REPLACE TABLE `course16.gwz_sales_margin_pp_not_null` AS
+SELECT
+  orders_id,
+  products_id,
+  purchase_price
+FROM course16.gwz_sales_margin
+WHERE purchase_price IS NULL;
+
+-- LEFT vs RIGHT JOIN row count comparison
+SELECT COUNT(*) AS nb_rows
+FROM course16.gwz_sales_margin;
+
+SELECT COUNT(*) AS nb_rows
+FROM course16.gwz_sales AS s
+RIGHT JOIN course16.gwz_product AS p
+  ON s.products_id = p.products_id;

@@ -1,0 +1,13 @@
+-- join gwz_sales with gwz_product to add purchase_price
+CREATE OR REPLACE TABLE course16.gwz_sales_margin AS
+SELECT
+  s.*,
+  p.purchase_price
+FROM course16.gwz_sales AS s
+LEFT JOIN `course16.gwz_product` AS p
+  ON s.products_id = p.products_id;
+
+-- preview the result
+SELECT *
+FROM `course16.gwz_sales_margin`
+LIMIT 10;

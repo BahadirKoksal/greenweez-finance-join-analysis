@@ -1,0 +1,12 @@
+-- preview all three tables
+SELECT *
+FROM course16.gwz_product
+LIMIT 10;
+
+SELECT *
+FROM course16.gwz_sales
+LIMIT 10;
+
+SELECT *
+FROM course16.gwz_ship
+LIMIT 10;

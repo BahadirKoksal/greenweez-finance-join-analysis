@@ -21,8 +21,8 @@ Three tables from BigQuery (`course16` dataset):
 | Table | Rows | Description |
 |-------|------|-------------|
 | `gwz_sales` | 1,375,630 | One row per product per order — turnover and quantity |
-| `gwz_product` | — | Product catalog with purchase prices |
-| `gwz_ship` | — | Per-order shipping fee and logistics costs |
+| `gwz_product` | 16740 | Product catalog with purchase prices |
+| `gwz_ship` | 167552 | Per-order shipping fee and logistics costs |
 
 Key columns in `gwz_sales`:
 

@@ -1,0 +1,54 @@
+-- join gwz_orders with gwz_ship to add shipping data
+CREATE OR REPLACE TABLE course16.gwz_orders_operational AS
+SELECT
+  o.date_date,
+  o.orders_id,
+  o.qty,
+  o.turnover,
+  o.purchase_cost,
+  o.margin,
+  sh.log_cost,
+  sh.shipping_fee,
+  sh.ship_cost
+FROM course16.gwz_orders AS o
+LEFT JOIN course16.gwz_ship AS sh
+  ON o.orders_id = sh.orders_id;
+
+-- preview the result
+SELECT *
+FROM course16.gwz_orders_operational
+LIMIT 10;
+
+-- PK test: check for duplicate orders_id in gwz_orders_operational
+SELECT
+  orders_id,
+  COUNT(*) AS nb
+FROM `course16.gwz_orders_operational`
+GROUP BY orders_id
+HAVING COUNT(*) > 1;
+
+-- NULL test: check for missing shipping data after JOIN
+SELECT
+  orders_id,
+  shipping_fee,
+  log_cost,
+  ship_cost
+FROM `course16.gwz_orders_operational`
+WHERE shipping_fee IS NULL
+  OR log_cost IS NULL
+  OR ship_cost IS NULL;
+
+-- add operational_margin column
+CREATE OR REPLACE TABLE course16.gwz_orders_operational AS
+SELECT
+  date_date,
+  orders_id,
+  qty,
+  turnover,
+  purchase_cost,
+  margin,
+  log_cost,
+  shipping_fee,
+  ship_cost,
+  margin + shipping_fee - (ship_cost + log_cost) AS operational_margin
+FROM course16.gwz_orders_operational;

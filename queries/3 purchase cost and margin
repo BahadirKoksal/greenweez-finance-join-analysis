@@ -1,0 +1,17 @@
+-- add purchase_cost and margin columns
+CREATE OR REPLACE TABLE `course16.gwz_sales_margin` AS
+SELECT
+  date_date,
+  orders_id,
+  products_id,
+  turnover,
+  qty,
+  purchase_price,
+  ROUND(qty * purchase_price, 2) AS purchase_cost,
+  turnover - ROUND(qty * purchase_price, 2) AS margin
+FROM course16.gwz_sales_margin;
+
+-- preview the result
+SELECT *
+FROM course16.gwz_sales_margin
+LIMIT 10;
